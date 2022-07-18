@@ -115,6 +115,11 @@ namespace CryptoLab2
             this.sequenceLengthNumericUpDown.Name = "sequenceLengthNumericUpDown";
             this.sequenceLengthNumericUpDown.Size = new System.Drawing.Size(106, 23);
             this.sequenceLengthNumericUpDown.TabIndex = 3;
+            this.sequenceLengthNumericUpDown.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             // 
             // settingsLabel
             // 
@@ -166,9 +171,9 @@ namespace CryptoLab2
             this.testsOutputLabel.AutoSize = true;
             this.testsOutputLabel.Location = new System.Drawing.Point(3, 1);
             this.testsOutputLabel.Name = "testsOutputLabel";
-            this.testsOutputLabel.Size = new System.Drawing.Size(71, 15);
+            this.testsOutputLabel.Size = new System.Drawing.Size(45, 15);
             this.testsOutputLabel.TabIndex = 3;
-            this.testsOutputLabel.Text = "Tests output";
+            this.testsOutputLabel.Text = "Output";
             // 
             // testsButton
             // 
@@ -211,7 +216,7 @@ namespace CryptoLab2
             this.Controls.Add(this.sequencePanel);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainForm";
-            this.Text = "Stream cipher";
+            this.Text = "MSequence";
             this.sequencePanel.ResumeLayout(false);
             this.sequencePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sequenceLengthNumericUpDown)).EndInit();

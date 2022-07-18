@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace CryptoLab2.Lib
 {
@@ -33,13 +34,15 @@ namespace CryptoLab2.Lib
             BitArray MsequenceBits = Converter.StringToBitArray(register.GetKey(toRead * 8));
             BitArray encodedBits = fileBits.Xor(MsequenceBits);
             byte[] encodedBytes = Converter.BitArrayToByteArray(encodedBits);
-            using FileStream fsNew = new ("encrypted.txt", FileMode.Create, FileAccess.Write);
+
+            string path = fileName[..fileName.LastIndexOf('\\')] + "\\encrypted.txt";
+            using FileStream fsNew = new (path, FileMode.Create, FileAccess.Write);
             fsNew.Write(encodedBytes, 0, toRead);
         }
 
-        public static void Decrypt(string filePath, string registerStartSequence)
+        public static void Decrypt(string fileName, string registerStartSequence)
         {
-            using FileStream fileStream = new (filePath, FileMode.Open, FileAccess.Read);
+            using FileStream fileStream = new (fileName, FileMode.Open, FileAccess.Read);
             byte[] bytes = new byte[fileStream.Length];
             int toRead = (int)fileStream.Length;
             int Readed = 0;
@@ -60,7 +63,9 @@ namespace CryptoLab2.Lib
             BitArray sequenceBits = Converter.StringToBitArray(register.GetKey(toRead * 8));
             BitArray encodedBits = bits.Xor(sequenceBits);
             byte[] encodedBytes = Converter.BitArrayToByteArray(encodedBits);
-            using FileStream writefs = new ("decrypted.txt", FileMode.Create, FileAccess.Write);
+
+            string path = fileName[..fileName.LastIndexOf('\\')] + "\\decrypted.txt";
+            using FileStream writefs = new (path, FileMode.Create, FileAccess.Write);
             writefs.Write(encodedBytes, 0, toRead);
 
         }

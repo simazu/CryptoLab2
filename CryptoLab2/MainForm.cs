@@ -16,9 +16,12 @@ namespace CryptoLab2
         {
             sequenceRichTextBox.Clear();
             Registers register;
+            if (comboBox1.SelectedItem == null)
+                comboBox1.SelectedItem = "Random";
             if (comboBox1.SelectedItem.ToString() != "Random")
             {
-                using OpenFileDialog fileDialog = new OpenFileDialog();
+                using OpenFileDialog fileDialog = new ();
+                fileDialog.Title = "Key";
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string startState = File.ReadAllText(fileDialog.FileName);
@@ -33,23 +36,26 @@ namespace CryptoLab2
             if (sequenceLength == Math.Truncate(sequenceLength))
                 sequenceRichTextBox.Text = register.GetKey((int)sequenceLength);
             else
-                MessageBox.Show("Error");
+                MessageBox.Show("Incorrect length error");
         }
         private void encryptButton_Click(object sender, EventArgs e)
         {
             string fileName = "";
-            using (OpenFileDialog fileDialog = new OpenFileDialog())
-            {
-                if (fileDialog.ShowDialog() == DialogResult.OK)
-                    fileName = fileDialog.FileName;
-                else
-                    return;
-            }
+            using OpenFileDialog fileDialog = new();
+            fileDialog.Title = "File to encrypt";
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+                fileName = fileDialog.FileName;
+            else
+                return;
+            
 
             string sequence = File.ReadAllText("key.txt");
             Encrypter.Encrypt(fileName, sequence);
 
             testsOutputRichTextBox.Clear();
+            string path = fileName[..fileName.LastIndexOf('\\')] + "\\encrypted.txt";
+            testsOutputRichTextBox.Text += $"encrypted to {path}\n";
+
             testsOutputRichTextBox.Text += "\ntesting text.txt\n\n\n";
             string sourceFile = Converter.BitArrrayToString(Converter.FileToBitArray(fileName));
             Test(sourceFile);
@@ -60,9 +66,20 @@ namespace CryptoLab2
         }
         private void decryptButton_Click(object sender, EventArgs e)
         {
-            string fileName = "encrypted.txt";
+            string fileName = "";
+            using OpenFileDialog fileDialog = new();
+            fileDialog.Title = "File to decrypt";
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+                fileName = fileDialog.FileName;
+            else
+                return;
+            
             string sequence = File.ReadAllText("key.txt");
             Encrypter.Decrypt(fileName, sequence);
+
+            testsOutputRichTextBox.Clear();
+            string path = fileName[..fileName.LastIndexOf('\\')] + "\\decrypted.txt";
+            testsOutputRichTextBox.Text += $"decrypted to {path}\n\n\n";
         }
         private void testsButton_Click(object sender, EventArgs e)
         {
